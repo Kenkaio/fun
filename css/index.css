@@ -1,0 +1,36 @@
+#diaporama{
+	width: 1500px;
+	height: 400px;
+	margin: auto;
+	margin-top: 150px;
+	display: flex;
+}
+
+#contenu1{
+	background-color: green;
+	width: 1050px;
+}
+
+#contenu2{
+	background-color: yellow;
+	width: 150px;
+	transform:perspective(400px) rotateY(-45deg);
+	margin-left: -15px;
+}
+
+#contenu3{
+	background-color: blue;
+	width: 150px;
+	transform:perspective(400px) rotateY(-45deg);
+	margin-left: -25px;
+}
+
+#contenu4{
+	background-color: red;
+	width: 150px;
+	transform:perspective(400px) rotateY(-45deg);
+	margin-left: -25px;
+}
+
+
+
