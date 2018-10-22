@@ -19,70 +19,52 @@ var modification = [{
 	}
 ];
 
-function diap1(){
-    $('#contenu1').css(modification[2]);
-    $('#contenu2').css(modification[0]);
-    $('#contenu3').css(modification[0]);
-    $('#contenu4').css(modification[0]);
-    $('#contenu3').css("margin-left", "-25px");
-    $('#contenu4').css("margin-left", "-25px");
-}
-
-function diap2(){
-    $('#contenu1').css(modification[1]);
-    $('#contenu2').css(modification[2]);
-    $('#contenu3').css(modification[0]);
-    $('#contenu4').css(modification[0]);
-    $('#contenu3').css("margin-left", "-15px");
-}
-
-function diap3(){
-    $('#contenu1').css(modification[1]);
-    $('#contenu2').css(modification[1]);
-    $('#contenu3').css(modification[2]);
-    $('#contenu4').css(modification[0]);
-    $('#contenu4').css("margin-left", "-15px");
-    $('#contenu3').css("margin-left", "-10px");
-}
-
-function diap4(){
-    $('#contenu1').css(modification[1]);
-    $('#contenu2').css(modification[1]);
-    $('#contenu3').css(modification[1]);
-    $('#contenu4').css(modification[2]);
-    $('#contenu3').css("margin-left", "-15px");
-}
-
 $('#contenu1').css({
-	"width": "1050px",
-	"transform": "perspective(0px) rotateY(0deg)",
-	"transition-duration": "3s"
+    "width": "1050px",
+    "transform": "perspective(0px) rotateY(0deg)",
+    "transition-duration": "3s"
 });
 
 /*
-    --------- Animation Manuelle Click sur diapo ----------
+--------- Animation Manuelle Click ----------
 */
 
+var nombreContenu = $('.contenu').length;
 
 $('div').on('click', function () {
     var id = this.id;
-    if (id === "contenu1"){
-    	diap1();
-    }
-    else if (id === "contenu2"){
-    	diap2();
-    }
-    else if (id === "contenu3"){
-    	diap3();
-    }
-    else if (id === "contenu4"){
-    	diap4();
+
+    if(id === "contenu1"){
+        $('#contenu1').css(modification[2]);
+        for (var i = nombreContenu; i > 1; i--) {
+            $('#contenu'+i).css(modification[0]);
+        }
+    } 
+    else if(id === "contenu" + nombreContenu){
+        $('#contenu' + nombreContenu).css(modification[2]);
+        for (var i = nombreContenu - 1; i > 0; i--) {
+            $('#contenu'+i).css(modification[1]);
+        }
+    }   
+    else if((id !== "contenu" + nombreContenu) && (id !== "contenu1")){ 
+        var chiffreContenu = id.substr(7);
+        for (var i = nombreContenu; i > 0; i--) {
+            var currentI = i;                       
+            if(currentI > chiffreContenu) {
+                $('#contenu'+currentI).css(modification[0]);
+            }
+            else if(currentI == chiffreContenu) {
+                $('#contenu'+currentI).css(modification[2]);
+            }
+            else if(currentI < chiffreContenu) {
+                $('#contenu'+currentI).css(modification[1]);
+            }               
+        }
     }
 });
 
-
 /*
-    --------- Animation Manuelle Touches du clavier ----------
+--------- Animation Manuelle Touches du clavier ----------
 */
 
 var contenu1 = true;
