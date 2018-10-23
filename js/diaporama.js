@@ -30,17 +30,18 @@ $('#contenu1').css({
 */
 
 var nombreContenu = $('.contenu').length;
+var diap = 1;
 
 $('div').on('click', function () {
     var id = this.id;
 
-    if(id === "contenu1"){
+    if(id === "contenu1"){ // Si l'id de la div selectionné est contenu 1 alors on applique une modification CSS sur elle meme puis une boucle pour les autres 
         $('#contenu1').css(modification[2]);
         for (var i = nombreContenu; i > 1; i--) {
-            $('#contenu'+i).css(modification[0]);
+            $('#contenu'+i).css(modification[0]); // Boucles car modications identiques
         }
     } 
-    else if(id === "contenu" + nombreContenu){
+    else if(id === "contenu" + nombreContenu){ // idem que précédent sauf si c'est la dernière div sélectionnée
         $('#contenu' + nombreContenu).css(modification[2]);
         for (var i = nombreContenu - 1; i > 0; i--) {
             $('#contenu'+i).css(modification[1]);
@@ -48,7 +49,7 @@ $('div').on('click', function () {
     }   
     else if((id !== "contenu" + nombreContenu) && (id !== "contenu1")){ 
         var chiffreContenu = id.substr(7);
-        for (var i = nombreContenu; i > 0; i--) {
+        for (var i = nombreContenu; i > 0; i--) { // boucle pour modifier le css quand la div selectionnée est au milieu
             var currentI = i;                       
             if(currentI > chiffreContenu) {
                 $('#contenu'+currentI).css(modification[0]);
@@ -67,57 +68,60 @@ $('div').on('click', function () {
 --------- Animation Manuelle Touches du clavier ----------
 */
 
-var contenu1 = true;
-var contenu2 = false;
-var contenu3 = false;
-var contenu4 = false;
-
-// Affiche des informations sur un événement clavier
 function infosClavier(e) {
-    if(e.keyCode === 39 & contenu1){
-        diap2();
-        contenu1 = false;
-        contenu2 = true;
+    if(e.keyCode === 39){
+        if (diap === nombreContenu) {
+            diap = 1;
+            $('#contenu1').css(modification[2]);
+            for (var i = nombreContenu; i > 1; i--) {
+                $('#contenu'+i).css(modification[0]);
+            }
+        }
+        else{
+            diap++;
+            var chiffreContenu = diap;
+            for (var i = nombreContenu; i > 0; i--) { // boucle pour modifier le css quand la div selectionnée est au milieu
+                var currentI = i;                       
+                if(currentI > chiffreContenu) {
+                    $('#contenu'+currentI).css(modification[0]);
+                }
+                else if(currentI == chiffreContenu) {
+                    $('#contenu'+currentI).css(modification[2]);
+                }
+                else if(currentI < chiffreContenu) {
+                    $('#contenu'+currentI).css(modification[1]);
+                }               
+            }
+        }
     }
-    else if(e.keyCode === 37 & contenu1){
-        diap4();
-        contenu1 = false;
-        contenu4 = true;
-    }
-    else if(e.keyCode === 39 & contenu2){
-        diap3();
-        contenu2 = false;
-        contenu3 = true;
-    }
-    else if(e.keyCode === 37 & contenu2){
-        diap1();
-        contenu2 = false;
-        contenu1 = true;
-    }
-    else if(e.keyCode === 39 & contenu3){
-        diap4();
-        contenu3 = false;
-        contenu4 = true;
-    }
-    else if(e.keyCode === 37 & contenu3){
-        diap2();
-        contenu3 = false;
-        contenu2 = true;
-    }
-    else if(e.keyCode === 39 & contenu4){
-        diap1();
-        contenu4 = false;
-        contenu1 = true;
-    }
-    else if(e.keyCode === 37 & contenu4){
-        diap3();
-        contenu4 = false;
-        contenu3 = true;
+    else if(e.keyCode === 37){
+        if (diap === 1) {
+            diap = nombreContenu;
+            $('#contenu' + nombreContenu).css(modification[2]);
+            for (var i = nombreContenu - 1; i > 0; i--) {
+                $('#contenu'+i).css(modification[1]);
+            }
+        }
+        else{
+            diap--;
+            var chiffreContenu = diap;
+            for (var i = nombreContenu; i > 0; i--) { // boucle pour modifier le css quand la div selectionnée est au milieu
+                var currentI = i;                       
+                if(currentI > chiffreContenu) {
+                    $('#contenu'+currentI).css(modification[0]);
+                }
+                else if(currentI == chiffreContenu) {
+                    $('#contenu'+currentI).css(modification[2]);
+                }
+                else if(currentI < chiffreContenu) {
+                    $('#contenu'+currentI).css(modification[1]);
+                }               
+            }
+        }
     }
 }
-// Gestion de l'appui et du relâchement d'une touche du clavier
-document.addEventListener("keydown", infosClavier);
 
+document.addEventListener("keydown", infosClavier);
 
 
 /*
