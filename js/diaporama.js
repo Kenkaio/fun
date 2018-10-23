@@ -25,6 +25,10 @@ $('#contenu1').css({
     "transition-duration": "3s"
 });
 
+/*
+    --------- Déclaration des modifications css en fonction de la diap selec ----------
+*/
+
 function diapFirst(){
     $('#contenu1').css(modification[2]);
     for (var i = nombreContenu; i > 1; i--) {
@@ -56,7 +60,7 @@ function diapMid(){
 
 
 /*
---------- Animation Manuelle Click ----------
+    --------- Animation Manuelle Click ----------
 */
 
 var nombreContenu = $('.contenu').length;
@@ -64,11 +68,10 @@ var diap = 1;
 
 $('div').on('click', function () {
     var id = this.id;
-
-    if(id === "contenu1"){ // Si l'id de la div selectionné est contenu 1 alors on applique une modification CSS sur elle meme puis une boucle pour les autres 
+    if(id === "contenu1"){ 
         diapFirst();        
     } 
-    else if(id === "contenu" + nombreContenu){ // idem que précédent sauf si c'est la dernière div sélectionnée
+    else if(id === "contenu" + nombreContenu){
         diapLast();
     }   
     else if((id !== "contenu" + nombreContenu) && (id !== "contenu1")){ 
@@ -78,7 +81,7 @@ $('div').on('click', function () {
 });
 
 /*
---------- Animation Manuelle Touches du clavier ----------
+    --------- Animation Manuelle Touches du clavier ----------
 */
 
 function infosClavier(e) {
@@ -104,7 +107,7 @@ function infosClavier(e) {
             diapMid();
         }
     }
-}
+};
 
 document.addEventListener("keydown", infosClavier);
 
@@ -113,23 +116,50 @@ document.addEventListener("keydown", infosClavier);
     --------- Animation Auto ----------
 */
 
-var diap1Auto = true;
-var diap2Auto = false;
-var diap3Auto = false;
-var diap4Auto = false;
-
 function animationAuto(){
-    
+    if (diap === nombreContenu) {
+        diap = 1;
+        diapFirst();        
+    }
+    else{
+        diap++;
+        window['chiffreContenu'] = diap;
+        diapMid();
+    }
 };
 
-function demarrer(){
-    setInterval(animationAuto(), 5000);
+
+function lancementAnim() {
+    window['varAnim'] = setInterval(animationAuto, 6000);
 };
 
+window.onload = lancementAnim();
 
-function stop(){
-    clearInterval(animationAuto());
-};
+var stop = true;
+
+$("#stop").click(function () {
+    clearInterval(varAnim);
+    $('#demarrer').css({
+        "opacity": "1",
+        "display": "block"
+    });
+    $('#stop').css({
+        "opacity": "0",
+        "display": "none"
+    });
+});
+
+$("#demarrer").click(function () {
+    window['varAnim'] = setInterval(animationAuto, 6000);
+    $('#demarrer').css({
+        "opacity": "0",
+        "display": "none"
+    });
+    $('#stop').css({
+        "opacity": "1",
+        "display": "block"
+    });
+});
 
 
 
