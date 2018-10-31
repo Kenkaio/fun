@@ -1,4 +1,6 @@
-window.onload = function() {
+window.onload = function() { 
+
+	// Initialisation de la map préalablement chargé sur fichier HTML
     L.mapquest.key = 'h929kA7Z4D4lFKTIgc5KacHfwVm8F1Sy';
     var baseLayer = L.mapquest.tileLayer('map');
 
@@ -6,8 +8,9 @@ window.onload = function() {
       center: L.latLng(45.75, 4.85),
       layers: baseLayer,
       zoom: 12
-    });	 
+    });	
 
+    /* ------ Création de la fonction compteur lancé toutes les secondes ------ */
     function compteur(){
     	var date = sessionStorage.getItem("date");
     	var dateConv = Date.parse(date);
@@ -29,6 +32,8 @@ window.onload = function() {
     }
 
     setInterval(compteur, 1000);
+
+    /* ----- Récupération des infos api jcdecaux + ajout marqueurs sur la map ------- */
 
     ajaxGet("https://api.jcdecaux.com/vls/v1/stations?contract=Lyon&apiKey=22beeee17c3d11328823943102304b87aee0b0ca", function (reponse) {
     	var addressPoints = JSON.parse(reponse);	
@@ -54,19 +59,19 @@ window.onload = function() {
           	marker.bindPopup(title);
           	markers.addLayer(marker); 			
 		    marker.on("click", function(){
-		    if (sessionStorage.getItem('exist') == "true" || exist == 1) {
-		    	$('#chrono').css({
-		            "border": "3px solid red",
-		            "background-color": "rgb(255, 91, 91)",
-		            "transition" : '1s'
-		        });
-		        setTimeout(function(){ $('#chrono').css({
-		            "border": "3px solid black",
-		            "background-color": "rgb(165, 236, 157)",
-		            "transition" : '1s'
-		        }); }, 1000);
-		    }
-		    else{ 	          	
+			    if (sessionStorage.getItem('exist') == "true" || exist == 1) {
+			    	$('#chrono').css({
+			            "border": "3px solid red",
+			            "background-color": "rgb(255, 91, 91)",
+			            "transition" : '1s'
+			        });
+			        setTimeout(function(){ $('#chrono').css({
+			            "border": "3px solid black",
+			            "background-color": "rgb(165, 236, 157)",
+			            "transition" : '1s'
+			        }); }, 1000);
+			    }
+			    else{ 	          	
 					var identifiant = this.options.alt;
 					var valeur = 0;
 					for (var i = 0; i < addressPoints.length; i++) {
@@ -110,10 +115,8 @@ window.onload = function() {
 		    			$('#veloDispo').css({ 'color': 'black', 'fontWeight' : "normal"});
 		    			$('#form').css({"display": 'block'});
 		    		}
-		    	}
-		    });
-
-        	
+			    }
+		  	});        	
         }
         map.addLayer(markers);
 	});
