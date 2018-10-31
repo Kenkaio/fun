@@ -114,3 +114,7 @@ label{
 #compteur{
 	font-weight: bold;
 }
+
+input{
+	border: 1px solid grey;
+}
