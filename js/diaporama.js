@@ -13,15 +13,15 @@ var modification = [{
   	"transition-duration": "3s"
 },
 {
-	"transform": "perspective(0px) rotateY(0deg)",
-  	"width": "1050px",
+	"transform": "rotateY(0deg)",
+  	"width": "1150px",
   	"transition-duration": "3s"
 	}
 ];
 
 $('#contenu1').css({
-    "width": "1050px",
-    "transform": "perspective(0px) rotateY(0deg)",
+    "width": "1150px",
+    "transform": "rotateY(0deg)",
     "transition-duration": "3s"
 });
 
@@ -66,16 +66,19 @@ function diapMid(){
 var nombreContenu = $('.contenu').length;
 var diap = 1;
 
-$('div').on('click', function () {
+$('.contenu').on('click', function () {
     var id = this.id;
     if(id === "contenu1"){ 
-        diapFirst();        
+        diapFirst();
+        diap = 1;        
     } 
     else if(id === "contenu" + nombreContenu){
         diapLast();
+        diap = nombreContenu;
     }   
     else if((id !== "contenu" + nombreContenu) && (id !== "contenu1")){ 
         window['chiffreContenu'] = id.substr(7);
+        diap = id.substr(7);
         diapMid();
     }
 });
@@ -95,6 +98,13 @@ function infosClavier(e) {
             window['chiffreContenu'] = diap;
             diapMid();
         }
+        // -------- Modification image fleche -----------
+        $('#flecheDroite').css({
+            "background-image": "url('images/droiteOn.jpg')"
+        });
+        setTimeout(function(){ $('#flecheDroite').css({
+            "background-image": "url('images/droiteOff.jpg')"
+        }); }, 500);
     }
     else if(e.keyCode === 37){
         if (diap === 1) {
@@ -106,8 +116,16 @@ function infosClavier(e) {
             window['chiffreContenu'] = diap;
             diapMid();
         }
+        // -------- Modification image fleche -----------
+        $('#flecheGauche').css({
+            "background-image": "url('images/gaucheOn.png')"
+        });
+        setTimeout(function(){ $('#flecheGauche').css({
+            "background-image": "url('images/gaucheOff.png')"
+        }); }, 500);
     }
 };
+
 
 document.addEventListener("keydown", infosClavier);
 
@@ -128,16 +146,14 @@ function animationAuto(){
     }
 };
 
-
 function lancementAnim() {
     window['varAnim'] = setInterval(animationAuto, 6000);
 };
 
 window.onload = lancementAnim();
 
-var stop = true;
-
 $("#stop").click(function () {
+    document.getElementById("timeline").classList.remove("timeline");
     clearInterval(varAnim);
     $('#demarrer').css({
         "opacity": "1",
@@ -147,10 +163,14 @@ $("#stop").click(function () {
         "opacity": "0",
         "display": "none"
     });
+    $('#timeline').css({
+        "animation-play-state":"paused",
+    });
 });
 
 $("#demarrer").click(function () {
     window['varAnim'] = setInterval(animationAuto, 6000);
+    document.getElementById("timeline").classList.add("timeline");
     $('#demarrer').css({
         "opacity": "0",
         "display": "none"
@@ -159,8 +179,7 @@ $("#demarrer").click(function () {
         "opacity": "1",
         "display": "block"
     });
+    $('#timeline').css({
+        "animation-play-state":"running",
+    });
 });
-
-
-
-
