@@ -1,4 +1,6 @@
 var exist = 0;
+
+/* -------- Réservation effectuée ---------- */
 $('#reserver').click(function(){
 		window['dateEnregistrement'] = new Date();
 		var valeurNom = document.getElementById('nom').value;
@@ -28,17 +30,18 @@ $('#reserver').click(function(){
 		}
 });
 
- function clear(){
-		sessionStorage.clear();
-		$('#retour').slideUp();
-		$('#chrono').slideUp();
-		$('#map').css({
-				"height" : '500px',
-				"width" : '100%',
-				"transition" : '1s'
-			});
-		exist = 0;		
-	}
+/* ------ Nettoyage des informations -------- */
+function clear(){
+	sessionStorage.clear();
+	$('#retour').slideUp();
+	$('#chrono').slideUp();
+	$('#map').css({
+			"height" : '500px',
+			"width" : '100%',
+			"transition" : '1s'
+		});
+	exist = 0;		
+}
 
 $('#annuler').click(function(){
 	clear();
